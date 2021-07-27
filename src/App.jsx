@@ -1,11 +1,13 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import Form from "./component/Form";
 import Items from './component/Item';
 import styled from "styled-components";
 
-const App = () => {
+const App = () =>{
     const [todos, setTodos] = useState([])
+    localStorage.setItem('todos', JSON.stringify(todos))
+
     const addToDo = (text) => {
         if (text) {
             const toDo = {
@@ -14,6 +16,7 @@ const App = () => {
                 isCompleted: false
             }
             setTodos([...todos, toDo])
+
         }
 
 
@@ -21,11 +24,14 @@ const App = () => {
     const deleteToDo = (id) => {
         if (id) {
             setTodos(todos.filter(t => t.id != id))
+            setTodos(JSON.parse(localStorage.getItem('todos')))
         }
     }
     const toggleCompleted = (id) => {
         if (id) {
             setTodos(todos.map(t => t.id == id ? {isCompleted: !t.isCompleted, toDoText: t.toDoText, id: t.id} : t))
+            setTodos(JSON.parse(localStorage.getItem('todos')))
+
         }
     }
     const StyledDiv = styled.div`
@@ -38,7 +44,6 @@ const App = () => {
       display: flex;
       flex-direction: row;
     `;
-
     return (
         <div className="App">
             <StyledDiv>
