@@ -15,7 +15,7 @@ const App = () =>{
                 isCompleted: false
             }
             setTodos([...todos, toDo])
-
+            setTodos(JSON.parse('todos'))
         }
 
 
@@ -23,12 +23,13 @@ const App = () =>{
     const deleteToDo = (id) => {
         if (id) {
             setTodos(todos.filter(t => t.id != id))
+            setTodos(JSON.parse('todos'))
         }
     }
     const toggleCompleted = (id) => {
         if (id) {
             setTodos(todos.map(t => t.id == id ? {isCompleted: !t.isCompleted, toDoText: t.toDoText, id: t.id} : t))
-
+            setTodos(JSON.parse('todos'))
         }
     }
     const StyledDiv = styled.div`
@@ -45,10 +46,10 @@ const App = () =>{
         setTodos(JSON.parse(localStorage.getItem('todos')))
     },[])
     useEffect(()=>{
-        if(todos.length != 0){
             localStorage.setItem('todos', JSON.stringify(todos))
-        }
+
     },[todos])
+
     return (
         <div className="App">
             <StyledDiv>
