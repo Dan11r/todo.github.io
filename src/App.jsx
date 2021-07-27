@@ -6,7 +6,6 @@ import styled from "styled-components";
 
 const App = () =>{
     const [todos, setTodos] = useState([])
-    localStorage.setItem('todos', JSON.stringify(todos))
 
     const addToDo = (text) => {
         if (text) {
@@ -24,13 +23,11 @@ const App = () =>{
     const deleteToDo = (id) => {
         if (id) {
             setTodos(todos.filter(t => t.id != id))
-            setTodos(JSON.parse(localStorage.getItem('todos')))
         }
     }
     const toggleCompleted = (id) => {
         if (id) {
             setTodos(todos.map(t => t.id == id ? {isCompleted: !t.isCompleted, toDoText: t.toDoText, id: t.id} : t))
-            setTodos(JSON.parse(localStorage.getItem('todos')))
 
         }
     }
@@ -44,6 +41,14 @@ const App = () =>{
       display: flex;
       flex-direction: row;
     `;
+    useEffect(()=>{
+        setTodos(JSON.parse(localStorage.getItem('todos')))
+    },[])
+    useEffect(()=>{
+        if(todos.length != 0){
+            localStorage.setItem('todos', JSON.stringify(todos))
+        }
+    },[todos])
     return (
         <div className="App">
             <StyledDiv>
